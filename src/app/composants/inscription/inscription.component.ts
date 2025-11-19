@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthentificationService } from '../../services/authentification.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-inscription',
@@ -20,7 +21,8 @@ export class InscriptionComponent {
 
   constructor(
     private authService: AuthentificationService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   async soumettre() {
@@ -47,8 +49,10 @@ export class InscriptionComponent {
 
     try {
       await this.authService.inscription(this.email, this.motDePasse);
-      alert('Inscription réussie !');
-      this.router.navigate(['/connexion']); // Redirection vers la page d'accueil
+      this.notificationService.afficherSucces('Inscription réussie !');
+      setTimeout(() => {
+        this.router.navigate(['/connexion']);
+      }, 1000);
     } catch (erreur: any) {
       console.error('Erreur lors de l\'inscription:', erreur);
       

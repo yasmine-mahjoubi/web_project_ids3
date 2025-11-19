@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthentificationService } from '../../services/authentification.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-connexion',
@@ -19,7 +20,8 @@ export class ConnexionComponent {
 
   constructor(
     private authService: AuthentificationService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   async soumettre() {
@@ -36,8 +38,9 @@ export class ConnexionComponent {
 
     try {
       await this.authService.connexion(this.email, this.motDePasse);
-      alert('Connexion réussie !');
-      this.router.navigate(['/home']); // Redirection vers la page d'accueil
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 1000);
     } catch (erreur: any) {
       console.error('Erreur lors de la connexion:', erreur);
       
