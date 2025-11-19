@@ -9,7 +9,7 @@ import { AuthentificationService } from '../../services/authentification.service
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './connexion.component.html',
-  styleUrl: './connexion.component.css'
+  styleUrls: ['./connexion.component.css']
 })
 export class ConnexionComponent {
   email: string = '';

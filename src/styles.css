@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global reset et fond bleu pour toute la page */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body, app-root {
+	height: 100%;
+}
+
+body {
+	min-height: 100vh;
+	/* changer la couleur/gradient si besoin */
+	background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden; /* évite une bande blanche à droite si un élément déborde */
+}
+
+/* Si vous préférez un fond uni : */
+/* body { background: #0083b0; } */
+
+/* Laisser les styles de composants intacts (chaque composant est encapsulé) */
