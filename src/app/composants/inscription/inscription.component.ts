@@ -48,7 +48,7 @@ export class InscriptionComponent {
     try {
       await this.authService.inscription(this.email, this.motDePasse);
       alert('Inscription réussie !');
-      this.router.navigate(['/cliniques']); // Redirection vers la liste des cliniques
+      this.router.navigate(['/connexion']); // Redirection vers la page d'accueil
     } catch (erreur: any) {
       console.error('Erreur lors de l\'inscription:', erreur);
       

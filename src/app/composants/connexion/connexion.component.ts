@@ -37,7 +37,7 @@ export class ConnexionComponent {
     try {
       await this.authService.connexion(this.email, this.motDePasse);
       alert('Connexion réussie !');
-      this.router.navigate(['/cliniques']); // Redirection vers la liste des cliniques
+      this.router.navigate(['/home']); // Redirection vers la page d'accueil
     } catch (erreur: any) {
       console.error('Erreur lors de la connexion:', erreur);
       
