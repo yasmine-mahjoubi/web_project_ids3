@@ -6,6 +6,49 @@
   background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Particules animées en arrière-plan */
+.particules {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particule {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: flottement 15s infinite linear;
+}
+
+@keyframes flottement {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) rotate(90deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-10px) translateX(20px) rotate(180deg);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(10px) translateX(10px) rotate(270deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0) translateX(0) rotate(360deg);
+    opacity: 0.7;
+  }
 }
 
 .carte-connexion {
@@ -15,17 +58,25 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 500px;
-  animation: slideIn 0.5s ease-out;
+  animation: slideIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carte-connexion:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-30px);
+    transform: translateY(-30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -45,10 +96,33 @@
   justify-content: center;
   margin: 0 auto 20px;
   box-shadow: 0 10px 25px rgba(0, 180, 219, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 180, 219, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(0, 180, 219, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 180, 219, 0);
+  }
 }
 
 .icone-medical svg {
   color: white;
+  animation: iconeFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconeFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 h2 {
@@ -56,16 +130,30 @@ h2 {
   margin: 0 0 10px 0;
   font-size: 26px;
   font-weight: 700;
+  animation: fadeIn 0.8s ease 0.2s both;
 }
 
 .sous-titre {
   color: #7f8c8d;
   margin: 0;
   font-size: 14px;
+  animation: fadeIn 0.8s ease 0.4s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .groupe-champ {
   margin-bottom: 25px;
+  animation: fadeIn 0.8s ease 0.6s both;
 }
 
 label {
@@ -76,10 +164,20 @@ label {
   color: #34495e;
   font-weight: 600;
   font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 label svg {
   color: #00b4db;
+  transition: transform 0.3s ease;
+}
+
+.groupe-champ:focus-within label {
+  color: #00b4db;
+}
+
+.groupe-champ:focus-within label svg {
+  transform: scale(1.1);
 }
 
 input {
@@ -91,6 +189,18 @@ input {
   box-sizing: border-box;
   transition: all 0.3s ease;
   background-color: #f8f9fa;
+  animation: inputAppear 0.5s ease;
+}
+
+@keyframes inputAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 input:focus {
@@ -98,10 +208,16 @@ input:focus {
   border-color: #00b4db;
   background-color: white;
   box-shadow: 0 0 0 4px rgba(0, 180, 219, 0.1);
+  transform: translateY(-2px);
 }
 
 input::placeholder {
   color: #95a5a6;
+  transition: color 0.3s ease;
+}
+
+input:focus::placeholder {
+  color: #bdc3c7;
 }
 
 .alerte-erreur {
@@ -114,7 +230,7 @@ input::placeholder {
   border-radius: 10px;
   margin-bottom: 20px;
   font-size: 14px;
-  animation: shake 0.5s;
+  animation: shake 0.5s, slideDown 0.3s ease;
   box-shadow: 0 4px 15px rgba(238, 90, 111, 0.3);
 }
 
@@ -124,8 +240,20 @@ input::placeholder {
   75% { transform: translateX(10px); }
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .alerte-erreur svg {
   flex-shrink: 0;
+  animation: pulse 1.5s infinite;
 }
 
 .bouton-connexion {
@@ -142,6 +270,10 @@ input::placeholder {
   box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.bouton-connexion:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .bouton-connexion:hover:not(:disabled) {
@@ -183,6 +315,7 @@ input::placeholder {
   text-align: center;
   margin: 25px 0;
   position: relative;
+  animation: fadeIn 0.8s ease 1s both;
 }
 
 .separateur::before {
@@ -193,6 +326,18 @@ input::placeholder {
   right: 0;
   height: 1px;
   background: #e0e6ed;
+  animation: expandLine 0.5s ease 1.2s both;
+}
+
+@keyframes expandLine {
+  from {
+    left: 50%;
+    right: 50%;
+  }
+  to {
+    left: 0;
+    right: 0;
+  }
 }
 
 .separateur span {
@@ -210,18 +355,34 @@ input::placeholder {
   margin: 0;
   color: #7f8c8d;
   font-size: 14px;
+  animation: fadeIn 0.8s ease 1.2s both;
 }
 
 .lien-inscription a {
   color: #00b4db;
   text-decoration: none;
   font-weight: 700;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.lien-inscription a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #00b4db;
+  transition: width 0.3s ease;
 }
 
 .lien-inscription a:hover {
   color: #0083b0;
-  text-decoration: underline;
+}
+
+.lien-inscription a:hover::after {
+  width: 100%;
 }
 
 /* Responsive */
@@ -256,11 +417,14 @@ input::placeholder {
   align-items: center;
   justify-content: center;
   color: #95a5a6;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  border-radius: 50%;
 }
 
 .bouton-oeil:hover {
   color: #00b4db;
+  background-color: rgba(0, 180, 219, 0.1);
+  transform: scale(1.1);
 }
 
 .bouton-oeil svg {

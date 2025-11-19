@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -12,18 +12,57 @@ import { NotificationService } from '../../services/notification.service';
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.css']
 })
-export class ConnexionComponent {
+export class ConnexionComponent implements OnInit, OnDestroy {
   email: string = '';
   motDePasse: string = '';
   messageErreur: string = '';
   chargement: boolean = false;
   montrerMotDePasse: boolean = false;
+  connexionReussie: boolean = false;
+  
+  @ViewChild('particulesContainer') particulesContainer!: ElementRef;
+  private animationFrameId: number | null = null;
 
   constructor(
     private authService: AuthentificationService,
     private router: Router,
     private notificationService: NotificationService
   ) {}
+
+  ngOnInit(): void {
+    this.creerParticules();
+  }
+
+  ngOnDestroy(): void {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+  }
+
+  // Fonction pour créer les particules animées en arrière-plan
+  creerParticules(): void {
+    const container = this.particulesContainer.nativeElement;
+    const particuleCount = 15;
+    
+    for (let i = 0; i < particuleCount; i++) {
+      const particule = document.createElement('div');
+      particule.classList.add('particule');
+      
+      // Taille aléatoire entre 3px et 8px
+      const size = Math.random() * 5 + 3;
+      particule.style.width = `${size}px`;
+      particule.style.height = `${size}px`;
+      
+      // Position aléatoire
+      particule.style.left = `${Math.random() * 100}%`;
+      particule.style.top = `${Math.random() * 100}%`;
+      
+      // Délai d'animation aléatoire
+      particule.style.animationDelay = `${Math.random() * 15}s`;
+      
+      container.appendChild(particule);
+    }
+  }
 
   // Fonction pour basculer la visibilité du mot de passe
   basculerVisibiliteMotDePasse(): void {
@@ -52,10 +91,13 @@ export class ConnexionComponent {
     try {
       await this.authService.connexion(this.email, this.motDePasse);
       
+      // Afficher l'animation de succès
+      this.connexionReussie = true;
+      
       // Redirection après un délai pour voir l'animation
       setTimeout(() => {
         this.router.navigate(['/home']);
-      }, 1000);
+      }, 2000);
       
     } catch (erreur: any) {
       console.error('Erreur lors de la connexion:', erreur);
@@ -91,5 +133,6 @@ export class ConnexionComponent {
     this.motDePasse = '';
     this.messageErreur = '';
     this.montrerMotDePasse = false;
+    this.connexionReussie = false;
   }
 }
