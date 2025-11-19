@@ -234,3 +234,35 @@ input::placeholder {
     font-size: 22px;
   }
 }
+
+.champ-avec-icone {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.champ-avec-icone input {
+  padding-right: 50px;
+}
+
+.bouton-oeil {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #95a5a6;
+  transition: color 0.3s ease;
+}
+
+.bouton-oeil:hover {
+  color: #00b4db;
+}
+
+.bouton-oeil svg {
+  display: block;
+}
