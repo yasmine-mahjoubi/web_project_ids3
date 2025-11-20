@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Firestore, doc, setDoc, getDoc, collection } from '@angular/fire/firestore';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
 import { Utilisateur } from '../models/utilisateur.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilisateurService {
-
-  constructor(private firestore: Firestore) {}
+  private firestore = inject(Firestore);
 
   // Créer un utilisateur dans Firestore
   async creerUtilisateur(utilisateur: Utilisateur): Promise<void> {
@@ -24,13 +23,18 @@ export class UtilisateurService {
 
   // Récupérer un utilisateur depuis Firestore
   async obtenirUtilisateur(uid: string): Promise<Utilisateur | null> {
-    const utilisateurRef = doc(this.firestore, `utilisateurs/${uid}`);
-    const utilisateurSnap = await getDoc(utilisateurRef);
-    
-    if (utilisateurSnap.exists()) {
-      return utilisateurSnap.data() as Utilisateur;
+    try {
+      const utilisateurRef = doc(this.firestore, `utilisateurs/${uid}`);
+      const utilisateurSnap = await getDoc(utilisateurRef);
+      
+      if (utilisateurSnap.exists()) {
+        return utilisateurSnap.data() as Utilisateur;
+      }
+      return null;
+    } catch (erreur) {
+      console.error('Erreur lors de la récupération de l\'utilisateur:', erreur);
+      return null;
     }
-    return null;
   }
 
   // Vérifier si un utilisateur est admin

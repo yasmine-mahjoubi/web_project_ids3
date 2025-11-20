@@ -17,8 +17,3 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden; /* évite une bande blanche à droite si un élément déborde */
 }
-
-/* Si vous préférez un fond uni : */
-/* body { background: #0083b0; } */
-
-/* Laisser les styles de composants intacts (chaque composant est encapsulé) */

@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -12,7 +13,7 @@ import { NotificationService } from '../../services/notification.service';
   templateUrl: './connexion.component.html',
   styleUrls: ['./connexion.component.css']
 })
-export class ConnexionComponent implements OnInit, OnDestroy {
+export class ConnexionComponent implements OnInit, AfterViewInit, OnDestroy {
   email: string = '';
   motDePasse: string = '';
   messageErreur: string = '';
@@ -26,11 +27,19 @@ export class ConnexionComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthentificationService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
-    this.creerParticules();
+    // Initialisation
+  }
+
+  ngAfterViewInit(): void {
+    // Vérifier qu'on est dans un navigateur avant de créer les particules
+    if (isPlatformBrowser(this.platformId)) {
+      this.creerParticules();
+    }
   }
 
   ngOnDestroy(): void {
@@ -41,6 +50,11 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
   // Fonction pour créer les particules animées en arrière-plan
   creerParticules(): void {
+    // Vérifier que l'élément existe avant de l'utiliser
+    if (!this.particulesContainer) {
+      return;
+    }
+    
     const container = this.particulesContainer.nativeElement;
     const particuleCount = 15;
     
@@ -90,6 +104,10 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
     try {
       await this.authService.connexion(this.email, this.motDePasse);
+      
+      // Attendre un peu pour que l'utilisateur soit bien authentifié
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       const role = await this.authService.obtenirRole();
       
       if (role === 'admin') {
@@ -102,6 +120,8 @@ export class ConnexionComponent implements OnInit, OnDestroy {
         }, 1000);
       } else {
         this.messageErreur = 'Erreur lors de la récupération du rôle utilisateur';
+        this.notificationService.afficherErreur(this.messageErreur);
+        console.error('Rôle non trouvé pour l\'utilisateur');
         await this.authService.deconnexion();
       }
       

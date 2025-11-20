@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
 import { UtilisateurService } from './utilisateur.service';
 import { Utilisateur } from '../models/utilisateur.model';
@@ -7,12 +7,12 @@ import { Utilisateur } from '../models/utilisateur.model';
   providedIn: 'root'
 })
 export class AuthentificationService {
+  private auth = inject(Auth);
+  private utilisateurService = inject(UtilisateurService);
+  
   utilisateurActuel: User | null = null;
 
-  constructor(
-    private auth: Auth,
-    private utilisateurService: UtilisateurService
-  ) {
+  constructor() {
     // Écouter les changements d'état de l'authentification
     onAuthStateChanged(this.auth, (utilisateur) => {
       this.utilisateurActuel = utilisateur;

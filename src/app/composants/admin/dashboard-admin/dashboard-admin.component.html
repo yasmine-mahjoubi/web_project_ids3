@@ -1,0 +1,38 @@
+<div class="conteneur-admin">
+  <header class="en-tete-admin">
+    <h1>🏥 Dashboard Administrateur</h1>
+    <button (click)="seDeconnecter()" class="bouton-deconnexion">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </button>
+  </header>
+
+  <div class="contenu-admin">
+    <div class="carte">
+      <h2>👨‍⚕️ Gestion des Cliniques</h2>
+      <p>Ajouter, modifier ou supprimer des cliniques</p>
+      <button class="bouton-action">Gérer les cliniques</button>
+    </div>
+
+    <div class="carte">
+      <h2>👥 Gestion des Médecins</h2>
+      <p>Ajouter, modifier ou supprimer des médecins</p>
+      <button class="bouton-action">Gérer les médecins</button>
+    </div>
+
+    <div class="carte">
+      <h2>📅 Gestion des Rendez-vous</h2>
+      <p>Consulter et gérer tous les rendez-vous</p>
+      <button class="bouton-action">Voir les rendez-vous</button>
+    </div>
+
+    <div class="carte">
+      <h2>💬 Gestion des Commentaires</h2>
+      <p>Modérer les commentaires des patients</p>
+      <button class="bouton-action">Gérer les commentaires</button>
+    </div>
+  </div>
+</div>
