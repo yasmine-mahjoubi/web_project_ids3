@@ -90,14 +90,20 @@ export class ConnexionComponent implements OnInit, OnDestroy {
 
     try {
       await this.authService.connexion(this.email, this.motDePasse);
+      const role = await this.authService.obtenirRole();
       
-      // Afficher l'animation de succès
-      this.connexionReussie = true;
-      
-      // Redirection après un délai pour voir l'animation
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2000);
+      if (role === 'admin') {
+        setTimeout(() => {
+          this.router.navigate(['/admin/dashboard']);
+        }, 1000);
+      } else if (role === 'patient') {
+        setTimeout(() => {
+          this.router.navigate(['/patient/home']);
+        }, 1000);
+      } else {
+        this.messageErreur = 'Erreur lors de la récupération du rôle utilisateur';
+        await this.authService.deconnexion();
+      }
       
     } catch (erreur: any) {
       console.error('Erreur lors de la connexion:', erreur);

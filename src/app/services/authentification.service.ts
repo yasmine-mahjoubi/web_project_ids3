@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { UtilisateurService } from './utilisateur.service';
+import { Utilisateur } from '../models/utilisateur.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,10 @@ import { Observable } from 'rxjs';
 export class AuthentificationService {
   utilisateurActuel: User | null = null;
 
-  constructor(private auth: Auth) {
+  constructor(
+    private auth: Auth,
+    private utilisateurService: UtilisateurService
+  ) {
     // Écouter les changements d'état de l'authentification
     onAuthStateChanged(this.auth, (utilisateur) => {
       this.utilisateurActuel = utilisateur;
@@ -16,13 +20,32 @@ export class AuthentificationService {
   }
 
   // Inscription d'un nouveau patient
-  inscription(email: string, motDePasse: string): Promise<any> {
-    return createUserWithEmailAndPassword(this.auth, email, motDePasse);
+  async inscription(email: string, motDePasse: string): Promise<void> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, motDePasse);
+      
+      // Créer le profil utilisateur dans Firestore avec le rôle "patient"
+      const nouveauUtilisateur: Utilisateur = {
+        uid: userCredential.user.uid,
+        email: email,
+        role: 'patient',
+        dateCreation: new Date()
+      };
+      
+      await this.utilisateurService.creerUtilisateur(nouveauUtilisateur);
+    } catch (erreur) {
+      throw erreur;
+    }
   }
 
   // Connexion
-  connexion(email: string, motDePasse: string): Promise<any> {
-    return signInWithEmailAndPassword(this.auth, email, motDePasse);
+  async connexion(email: string, motDePasse: string): Promise<User> {
+    try {
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, motDePasse);
+      return userCredential.user;
+    } catch (erreur) {
+      throw erreur;
+    }
   }
 
   // Déconnexion
@@ -38,5 +61,18 @@ export class AuthentificationService {
   // Obtenir l'utilisateur actuel
   obtenirUtilisateur(): User | null {
     return this.utilisateurActuel;
+  }
+
+  // Obtenir l'UID de l'utilisateur actuel
+  obtenirUid(): string | null {
+    return this.utilisateurActuel?.uid || null;
+  }
+
+  // Obtenir le rôle de l'utilisateur actuel
+  async obtenirRole(): Promise<'patient' | 'admin' | null> {
+    if (!this.utilisateurActuel) return null;
+    
+    const utilisateur = await this.utilisateurService.obtenirUtilisateur(this.utilisateurActuel.uid);
+    return utilisateur?.role || null;
   }
 }
