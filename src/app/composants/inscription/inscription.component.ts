@@ -18,6 +18,7 @@ export class InscriptionComponent {
   confirmationMotDePasse: string = '';
   messageErreur: string = '';
   chargement: boolean = false;
+  montrerMotDePasse: boolean = false;
 
   constructor(
     private authService: AuthentificationService,
@@ -25,6 +26,11 @@ export class InscriptionComponent {
     private notificationService: NotificationService
   ) {}
 
+  // Fonction pour basculer la visibilité du mot de passe
+  basculerVisibiliteMotDePasse(): void {
+    this.montrerMotDePasse = !this.montrerMotDePasse;
+  }
+  
   async soumettre() {
     // Réinitialiser le message d'erreur
     this.messageErreur = '';
