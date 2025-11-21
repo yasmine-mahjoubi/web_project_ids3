@@ -106,18 +106,18 @@ export class ConnexionComponent implements OnInit, AfterViewInit, OnDestroy {
       await this.authService.connexion(this.email, this.motDePasse);
       
       // Attendre un peu pour que l'utilisateur soit bien authentifié
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 100));
       
       const role = await this.authService.obtenirRole();
       
       if (role === 'admin') {
         setTimeout(() => {
           this.router.navigate(['/admin/dashboard']);
-        }, 1000);
+        }, 500);
       } else if (role === 'patient') {
         setTimeout(() => {
-          this.router.navigate(['/patient/home']);
-        }, 1000);
+          this.router.navigate(['/patient/dashboard']);
+        }, 500);
       } else {
         this.messageErreur = 'Erreur lors de la récupération du rôle utilisateur';
         this.notificationService.afficherErreur(this.messageErreur);

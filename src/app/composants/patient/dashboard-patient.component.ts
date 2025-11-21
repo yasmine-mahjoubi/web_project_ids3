@@ -7,10 +7,10 @@ import { NotificationService } from '../../services/notification.service';
   selector: 'app-home',
   standalone: true,
   imports: [],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  templateUrl: './dashboard-patient.component.html',
+  styleUrl: './dashboard-patient.component.css'
 })
-export class HomeComponent {
+export class DashboardPatientComponent {
   constructor(
     private authService: AuthentificationService,
     private router: Router,
