@@ -7,7 +7,7 @@ export const adminGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
 
   if (!authService.estConnecte()) {
-    router.navigate(['/connexion']);
+    router.navigate(['/home']);
     return false;
   }
 
@@ -16,7 +16,7 @@ export const adminGuard: CanActivateFn = async (route, state) => {
   if (role === 'admin') {
     return true;
   } else {
-    router.navigate(['/patient/home']);
+    router.navigate(['/patient/dashboard']);
     return false;
   }
 };

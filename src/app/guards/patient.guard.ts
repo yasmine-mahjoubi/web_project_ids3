@@ -7,7 +7,7 @@ export const patientGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
 
   if (!authService.estConnecte()) {
-    router.navigate(['/connexion']);
+    router.navigate(['/home']);
     return false;
   }
 
