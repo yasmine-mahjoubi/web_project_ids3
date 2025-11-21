@@ -1,1 +1,138 @@
-<p>home works!</p>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 12L8 8L12 12L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 12V20H20V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">MediCare</span>
+    </div>
+    
+    <ul class="nav-menu">
+      <li><a (click)="navigateToClinics()" class="nav-link">Cliniques</a></li>
+      <li><a (click)="navigateToDoctors()" class="nav-link">Médecins</a></li>
+    </ul>
+    
+    <div class="nav-buttons">
+      <button class="btn-connexion" (click)="navigateToLogin()">Connexion</button>
+      <button class="btn-inscription" (click)="navigateToRegister()">S'inscrire</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-container">
+    <h1 class="hero-title">Trouvez votre clinique et prenez rendez-vous en ligne</h1>
+    <p class="hero-subtitle">Accédez aux meilleurs établissements médicaux et spécialistes près de chez vous</p>
+    
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Rechercher une clinique, spécialité..."
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+      <button class="btn-search" (click)="onSearch()">Rechercher</button>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="features-container">
+    @for (feature of features; track feature.title) {
+      <div class="feature-card">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Specialties Section -->
+<section class="specialties-section">
+  <div class="section-container">
+    <h2 class="section-title">Spécialités médicales</h2>
+    <p class="section-subtitle">Trouvez rapidement le spécialiste dont vous avez besoin</p>
+    
+    <div class="specialties-grid">
+      @for (specialty of specialties; track specialty.name) {
+        <div class="specialty-card">
+          <span class="specialty-icon">{{ specialty.icon }}</span>
+          <span class="specialty-name">{{ specialty.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-container">
+    <h2 class="cta-title">Prêt à prendre rendez-vous ?</h2>
+    <p class="cta-text">Inscrivez-vous gratuitement et accédez à tous nos services</p>
+    <button class="btn-cta" (click)="navigateToRegister()">Commencer maintenant</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <div class="footer-logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 12L8 8L12 12L20 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 12V20H20V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="logo-text">MediCare</span>
+      </div>
+      <p class="footer-description">
+        Votre plateforme de santé en ligne pour trouver et réserver des consultations médicales facilement.
+      </p>
+    </div>
+    
+    <div class="footer-section">
+      <h4 class="footer-heading">Services</h4>
+      <ul class="footer-links">
+        <li><a href="#">Trouver une clinique</a></li>
+        <li><a href="#">Trouver un médecin</a></li>
+        <li><a href="#">Prendre rendez-vous</a></li>
+        <li><a href="#">Spécialités</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4 class="footer-heading">À propos</h4>
+      <ul class="footer-links">
+        <li><a href="#">Qui sommes-nous</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Aide</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4 class="footer-heading">Légal</h4>
+      <ul class="footer-links">
+        <li><a href="#">Conditions d'utilisation</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">Mentions légales</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 MediCare. Tous droits réservés.</p>
+  </div>
+</footer>
